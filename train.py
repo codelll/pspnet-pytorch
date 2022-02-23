@@ -12,6 +12,7 @@ from utils.callbacks import LossHistory
 from utils.dataloader import PSPnetDataset, pspnet_dataset_collate
 from utils.utils_fit import fit_one_epoch
 
+import time
 '''
 训练自己的语义分割模型一定需要注意以下几点：
 1、训练前仔细检查自己的格式是否满足要求，该库要求数据集格式为VOC格式，需要准备好的内容有输入图片和标签
@@ -37,6 +38,7 @@ from utils.utils_fit import fit_one_epoch
    这些都是经验上，只能靠各位同学多查询资料和自己试试了。
 '''
 if __name__ == "__main__":
+    t0 = time.time()
     #-------------------------------#
     #   是否使用Cuda
     #   没有GPU可以设置成False
@@ -114,7 +116,7 @@ if __name__ == "__main__":
     #----------------------------------------------------#
     #   数据集路径
     #----------------------------------------------------#
-    VOCdevkit_path      = 'VOCdevkit'
+    VOCdevkit_path      = 'dataset2'
     #--------------------------------------------------------------------#
     #   建议选项：
     #   种类少（几类）时，设置为True
@@ -253,3 +255,4 @@ if __name__ == "__main__":
             fit_one_epoch(model_train, model, loss_history, optimizer, epoch, 
                     epoch_step, epoch_step_val, gen, gen_val, end_epoch, Cuda, dice_loss, focal_loss, cls_weights, aux_branch, num_classes)
             lr_scheduler.step()
+    print("total time%d"%(time.time()-t0))
